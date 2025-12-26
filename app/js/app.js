@@ -78,6 +78,7 @@ function account_type_change()
     }
     if(account_type_value === "Transferred to Competitor")
     {
+        document.getElementById("transfer_reason").innerHTML = ""
         document.getElementById("trans_auth2").innerHTML = ""
         document.getElementById("trans_id").innerHTML = comp_data
         // document.getElementById("trans_id2").innerHTML = doc_file2
@@ -86,6 +87,7 @@ function account_type_change()
     }
     if(account_type_value === "Send Final Warning")
     {
+        document.getElementById("transfer_reason").innerHTML = ""
         document.getElementById("trans_auth2").innerHTML = ""
         document.getElementById("trans_id").innerHTML = ""
         document.getElementById("trans_id2").innerHTML = ""
@@ -101,6 +103,7 @@ function account_type_change()
         if (!excludedTypes.includes(account_type)) {
             // const message = "YOU CAN PROCEED";
             // showPopup(message, "success");
+            document.getElementById("transfer_reason").innerHTML = ""
             document.getElementById("trans_auth2").innerHTML = ""
             document.getElementById("trans_id").innerHTML = ""
             document.getElementById("trans_id2").innerHTML = ""
@@ -120,6 +123,7 @@ function reason_change()
     let doc_file = "";
     let submit_button = "";
     let trans_auth2 = "";
+    let transfer_reason = "";
     doc_file = `<label class="noc_label" for="myFile">Upload TLZ NOC document</label>
     <input class="noc_document" onchange="fileInput_onchange()" onclick="fileInput_onclick()" type="file" id="myFile" name="noc_document" placeholder="TLZ NOC document" required>`
     trans_auth2 = `<select id="trans_auth" name="trans_auth" onchange="reason_change()">
@@ -127,18 +131,27 @@ function reason_change()
     <option value="Non Action License">Non Action License</option>
     <option value="Client's Request" selected>Client's Request</option>
     </select>`
+    transfer_reason = `
+<textarea id="remarks"
+          name="remarks"
+          rows="4"
+          placeholder="Enter remarks"
+          class="transfer-reason"></textarea>`;
+
     submit_button = `<input type="submit" value="Submit" id="submit_button" onclick="update_account()">`
     reason_change_value = document.getElementById("trans_auth").value || '';
     console.log(reason_change_value)
     if(reason_change_value === "Client's Request")
     {
     
+        document.getElementById("transfer_reason").innerHTML = transfer_reason
         document.getElementById("trans_auth2").innerHTML = trans_auth2
         document.getElementById("trans_id").innerHTML = doc_file
-        document.getElementById("submit_button").innerHTML = ""
+        document.getElementById("trans_id").innerHTML = doc_file
     }
     if(reason_change_value === "Non Action License")
     {
+        document.getElementById("transfer_reason").innerHTML = ""
         document.getElementById("trans_id").innerHTML = "";
         document.getElementById("submit_button").innerHTML = submit_button
     }
@@ -209,6 +222,12 @@ function update_account()
         reason_change_value2 = "";
         console.log("Competitor!!!")
     }
+    let transfer_reason_value = "";
+
+    const remarksEl = document.getElementById("remarks");
+    if (remarksEl) {
+        transfer_reason_value = remarksEl.value.trim();
+    }
     console.log(entity_id)
     console.log(account_type_value2)
     console.log(reason_change_value2)
@@ -221,6 +240,7 @@ function update_account()
               "Transfer_Type": account_type_value2,
               "Transferred_to_Authority_Reason": reason_change_value2,
               "Competitor_Agent_Name": agent_name_value,
+              "Transfer_Reason": transfer_reason_value,
               "File_ID": account_file_id
         },
         Trigger:["workflow"]

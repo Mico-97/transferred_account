@@ -42,15 +42,26 @@ input[type=submit] {
 input[type=submit]:hover {
   background-color: #45a049;
 }
-.noc_document{
-  color: white;
-  margin-top: 5px;
+.noc_label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
 }
 
 .noc_label{
   color: white;
   margin-top: 5px;
 }
+
+.transfer-reason {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    padding: 8px;
+    font-size: 14px;
+}
+
 
 
 /* div {
